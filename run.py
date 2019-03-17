@@ -40,17 +40,23 @@ def separate_dataset(df):
         for s in first.index:
             if ((first[s] == start_stamp) and (s not in columns)):
                 columns.append(s)
-        
-        end_stamp = stamps[i+1]
         start_pos = list(df.index).index(start_stamp)
-        end_pos = list(df.index).index(end_stamp)
-        selected_index = df.index[start_pos:end_pos]
+        selected_index = df.index[start_pos:]
         result.append(df.loc[selected_index][columns])
     return result
 
 second = separate_dataset(df)
         
-        
+for i in range(len(second)):
+    if i == 0:
+        second[i].to_csv('sub_datasets/1) start.csv')
+    else:
+        previous = second[i-1].columns
+        current = second[i].columns
+        f_name = str(i+1) + ") "
+        added = '-'.join(current.drop(current&previous))
+        f_name = f_name + added + " added.csv"
+        second[i].to_csv('sub_datasets/' + f_name)
         
     
     
